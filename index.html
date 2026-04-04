@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where's Jai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'WHERESJAI';
+  src: url('fonts/WHERESJAI.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #080808;
+  --deep: #111111;
+  --burg: #7a1a2e;
+  --burg-light: #9e2340;
+  --silver: #c8c8c8;
+  --silver-bright: #e8e8e8;
+  --silver-dim: #9c9c9c;
+  --text: #e2e2e2;
+  --muted: #878787;
+}
+html { cursor: none; scroll-behavior: smooth; }
+body { background: var(--black); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+/* CURSOR */
+#cd, #cr { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .15s, height .15s; }
+#cd { width: 6px; height: 6px; background: var(--burg-light); border-radius: 50%; }
+#cr {
+  width: 35px; height: 35px;
+  background: rgba(200,200,200,0.4);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  transition: width .15s, height .15s, clip-path .2s;
+}
+body.hov #cd { width: 10px; height: 10px; background: var(--silver-bright); }
+body.hov #cr { width: 50px; height: 50px; border-color: var(--burg-light); }
+
+/* GRAIN */
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 200;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.45; mix-blend-mode: overlay;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.4rem 3rem; display: flex; justify-content: space-between; align-items: center;
+  transition: background .4s, backdrop-filter .4s;
+}
+nav.scrolled { background: rgba(8,8,8,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(200,200,200,0.07); }
+.nav-logo { font-family: 'WHERESJAI', serif; font-size: 1.15rem; letter-spacing: .12em; color: var(--silver-bright); text-decoration: none; cursor: none; }
+.nav-logo em { font-style: italic; color: var(--burg-light); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--silver-dim); text-decoration: none; cursor: none; transition: color .2s; }
+.nav-links a:hover { color: var(--silver-bright); }
+
+/* HERO */
+.hero { min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+.hero-bg { position: absolute; inset: 0; background-image: url('img/solo.jpg'); background-size: cover; background-position: center 15%; }
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.6) 25%, rgba(8,8,8,0.8) 65%, rgba(8,8,8,0.97) 100%);
+}
+/* tinted glass panel behind text */
+.hero-content {
+  position: relative; z-index: 5; padding: 0 3rem 4rem;
+}
+.hero-eyebrow {
+  font-size: .62rem; letter-spacing: .34em; text-transform: uppercase; color: var(--burg-light);
+  margin-bottom: 1.2rem; display: flex; align-items: center; gap: .8rem;
+}
+.hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--burg-light); }
+.hero-title {
+  font-family: 'WHERESJAI', serif; font-size: clamp(4rem, 13vw, 13rem); line-height: .91;
+  letter-spacing: .015em; color: var(--silver-bright);
+  text-shadow: 0 0 100px rgba(122,26,46,0.35);
+}
+.hero-title em { font-style: italic; color: var(--burg-light); }
+.hero-sub { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--silver-dim); margin-top: 1.6rem; margin-bottom: 2.5rem; }
+
+/* SOCIAL BUTTONS */
+.social-row { display: flex; gap: .8rem; flex-wrap: wrap; }
+.soc {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .52rem 1.1rem; border: 1px solid rgba(200,200,200,0.18);
+  background: rgba(8,8,8,0.58); backdrop-filter: blur(10px);
+  text-decoration: none; cursor: none; color: var(--silver);
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  transition: border-color .22s, background .22s, color .22s;
+}
+.soc:hover { border-color: var(--burg-light); background: rgba(122,26,46,0.22); color: var(--silver-bright); }
+.soc svg { flex-shrink: 0; }
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 2.2rem; right: 3rem; z-index: 5;
+  font-size: .58rem; letter-spacing: .25em; text-transform: uppercase; color: var(--silver-dim);
+  writing-mode: vertical-rl; display: flex; align-items: center; gap: .7rem;
+}
+.scroll-hint::before {
+  content: ''; display: block; width: 1px; height: 52px;
+  background: linear-gradient(to bottom, var(--burg-light), transparent);
+  animation: p 2s ease-in-out infinite;
+}
+@keyframes p { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+/* SPIKE ROWS */
+.spk { display: block; width: 100%; height: 28px; overflow: hidden; }
+.spk svg { display: block; width: 100%; height: 28px; }
+
+/* TICKER */
+.ticker { background: var(--burg); overflow: hidden; padding: .5rem 0; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.ticker-track { display: flex; white-space: nowrap; animation: tick 22s linear infinite; }
+.t-item { font-family: 'Prata', serif; font-size: .88rem; font-style: italic; color: rgba(255,255,255,.82); padding: 0 2rem; }
+.t-sep { color: rgba(255,255,255,.3); padding: 0 .3rem; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* SECTION */
+section { padding: 6rem 3rem; }
+.sl { font-size: .58rem; letter-spacing: .3em; text-transform: uppercase; color: var(--burg-light); margin-bottom: .9rem; display: flex; align-items: center; gap: .7rem; }
+.sl::before { content: '◆'; font-size: .42rem; }
+.st { font-family: 'Prata', serif; font-size: clamp(2.6rem, 5.5vw, 5.5rem); line-height: .95; margin-bottom: 3rem; color: var(--silver-bright); }
+.st em { font-style: italic; color: var(--burg-light); }
+
+/* GIGS */
+#gigs { background: var(--black); }
+.gig { display: grid; grid-template-columns: 68px 1fr auto; align-items: center; gap: 2rem; padding: 1.6rem 0; border-bottom: 1px solid rgba(200,200,200,0.07); position: relative; overflow: hidden; }
+.gig::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(122,26,46,.14), transparent); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.gig:hover::before { transform: scaleX(1); }
+.gn { font-family: 'Prata', serif; font-size: 2.1rem; line-height: 1; color: var(--burg-light); }
+.gm { font-size: .56rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: .1rem; }
+.gname { font-family: 'Prata', serif; font-size: 1rem; color: var(--silver-bright); }
+.gwhere { font-size: .68rem; color: var(--muted); margin-top: .22rem; letter-spacing: .05em; }
+.gtix { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; padding: .52rem 1.3rem; border: 1px solid rgba(200,200,200,0.18); background: transparent; color: var(--silver); cursor: none; text-decoration: none; font-family: 'Jost',sans-serif; transition: border-color .2s, background .2s, color .2s; }
+.gtix:hover { border-color: var(--burg-light); background: var(--burg); color: #fff; }
+.sold-out { opacity: .3; pointer-events: none; text-decoration: line-through; }
+
+/* PHOTO STRIP */
+.photo-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.ph { position: relative; overflow: hidden; aspect-ratio: 3/4; }
+.ph img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.72) saturate(.65); transition: filter .4s, transform .5s ease; }
+.ph:hover img { filter: brightness(.88) saturate(.9); transform: scale(1.03); }
+.ph-lbl { position: absolute; bottom: 1.4rem; left: 1.4rem; font-family: 'Prata',serif; font-size: 1rem; font-style: italic; color: var(--silver-bright); text-shadow: 0 2px 12px rgba(0,0,0,.85); }
+.ph-wide { grid-column: 1 / -1; aspect-ratio: 16/7; }
+
+/* VIDEOS */
+#videos { background: var(--deep); }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 3px; }
+.vc { position: relative; cursor: none; overflow: hidden; }
+.vc .th { aspect-ratio: 16/9; overflow: hidden; position: relative; }
+.vc .th img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.6) saturate(.55); transition: filter .35s, transform .45s; }
+.vc:hover .th img { filter: brightness(.82) saturate(.8); transform: scale(1.04); }
+.pc { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8,8,8,.35); opacity: 0; transition: opacity .25s; }
+.vc:hover .pc { opacity: 1; }
+.vm { padding: .95rem 1.1rem 1.3rem; background: rgba(12,12,12,.92); }
+.vt { font-family: 'Prata',serif; font-size: .9rem; color: var(--silver-bright); margin-bottom: .28rem; }
+.vs { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* MERCH */
+#merch { background: #0a0a0a; }
+.mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px,1fr)); gap: 1.5rem; }
+.mc { position: relative; cursor: none; overflow: hidden; border: 1px solid rgba(200,200,200,0.07); background: rgba(14,14,14,.85); transition: border-color .25s, transform .3s; }
+.mc:hover { border-color: rgba(122,26,46,.5); transform: translateY(-4px); }
+.mi { aspect-ratio: 1; overflow: hidden; position: relative; }
+.mi img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(.78) saturate(.6); transition: transform .45s, filter .3s; }
+.mc:hover .mi img { transform: scale(1.05); filter: brightness(.9) saturate(.85); }
+.mo { position: absolute; inset: 0; background: rgba(8,8,8,.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; }
+.mc:hover .mo { opacity: 1; }
+.abtn { font-family: 'Jost',sans-serif; font-size: .63rem; letter-spacing: .2em; text-transform: uppercase; padding: .7rem 1.6rem; background: var(--burg); color: #fff; border: none; cursor: none; transition: background .2s; }
+.abtn:hover { background: var(--burg-light); }
+.minfo { padding: .95rem 1.1rem 1.25rem; }
+.mname { font-family: 'Prata',serif; font-size: .85rem; color: var(--silver-bright); }
+.mprice { font-size: .78rem; color: var(--burg-light); margin-top: .38rem; letter-spacing: .05em; }
+.mbadge { position: absolute; top: .75rem; left: .75rem; z-index: 2; background: var(--burg); color: #fff; font-size: .52rem; letter-spacing: .18em; text-transform: uppercase; padding: .26rem .62rem; }
+.mcta { margin-top: 3rem; text-align: center; }
+.ctabtn { display: inline-block; font-family: 'Jost',sans-serif; font-size: .66rem; letter-spacing: .22em; text-transform: uppercase; padding: .95rem 3rem; border: 1px solid rgba(200,200,200,.22); color: var(--silver); background: transparent; text-decoration: none; cursor: none; transition: border-color .2s, background .2s, color .2s; }
+.ctabtn:hover { border-color: var(--burg-light); background: var(--burg); color: #fff; }
+
+/* ABOUT */
+#about { position: relative; overflow: hidden; }
+.abg { position: absolute; inset: 0; background-image: url('img/band-studio.jpg'); background-size: cover; background-position: center 30%; filter: brightness(.18) saturate(.38); }
+.abg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,8,8,.92) 50%, rgba(122,26,46,.12) 100%); }
+.ain { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.atxt { font-size: .8rem; line-height: 2.05; color: rgba(226,226,226,.62); margin-top: 1.2rem; }
+.astats { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+.asn { font-family: 'Prata',serif; font-size: 3.8rem; font-style: italic; color: var(--burg-light); line-height: 1; }
+.asl { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--silver-dim); margin-top: .38rem; }
+
+/* MAILING */
+.mail { background: var(--burg); padding: 5rem 3rem; text-align: center; position: relative; overflow: hidden; }
+.mail::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,.45), transparent); }
+.mail-in { position: relative; z-index: 2; }
+.mail h2 { font-family: 'Prata',serif; font-size: clamp(2rem,5vw,5rem); line-height: 1; color: #fff; margin-bottom: 2rem; }
+.mail h2 em { font-style: italic; color: rgba(255,255,255,.5); }
+.mrow { display: flex; max-width: 490px; margin: 0 auto; }
+.mrow input { flex: 1; padding: .82rem 1.2rem; background: rgba(0,0,0,.42); border: 1px solid rgba(255,255,255,.2); border-right: none; color: #fff; font-family: 'Jost',sans-serif; font-size: .75rem; outline: none; cursor: none; }
+.mrow input::placeholder { color: rgba(255,255,255,.35); }
+.mrow button { padding: .82rem 1.8rem; background: #fff; color: var(--burg); border: none; font-family: 'Jost',sans-serif; font-size: .63rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; cursor: none; transition: background .2s, color .2s; }
+.mrow button:hover { background: var(--black); color: #fff; }
+
+/* FOOTER */
+footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06); padding: 2.8rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.flogo { font-family: 'Prata',serif; font-size: 1.3rem; color: var(--silver-bright); }
+.flogo em { font-style: italic; color: var(--burg-light); }
+.flinks { display: flex; gap: 2rem; flex-wrap: wrap; }
+.flinks a { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--silver-dim); text-decoration: none; cursor: none; transition: color .2s; }
+.flinks a:hover { color: var(--burg-light); }
+.fcopy { font-size: .56rem; color: var(--muted); letter-spacing: .1em; }
+
+/* FADE IN */
+.fi { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.fi.on { opacity: 1; transform: none; }
+.d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.4s}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;} .nav-links{display:none;}
+  section{padding:4rem 1.5rem;}
+  .ain{grid-template-columns:1fr; gap:2.5rem;}
+  .hero-content{padding:0 1.5rem 3rem;}
+  .gig{grid-template-columns:56px 1fr; gap:1rem;}
+  .gtix{display:none;}
+  footer{flex-direction:column; align-items:flex-start;}
+  .ph-wide{aspect-ratio:4/3;}
+}
+
+/* ── GLOBAL SCROLLING BG ── */
+#global-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background-color: #080808;
+}
+#global-bg .bg-layer {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+#global-bg .bg-layer.active { opacity: 1; }
+#global-bg .bg-tint {
+  position: absolute; inset: 0;
+  background: rgba(8, 8, 8, 0.815);
+  z-index: 1;
+}
+/* Make sections transparent so bg shows through */
+.hero, section, #gigs, #videos, #merch, #about { background: transparent !important; }
+/* But keep the ticker, mailing, footer opaque */
+.ticker, .mail, footer { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+<div id="global-bg">
+  <div class="bg-layer" id="bg-gigs" style="background-image: url('img/band-festival.jpg')"></div>
+  <div class="bg-layer" id="bg-rest" style="background-image: url('img/band-studio.jpg')"></div>
+  <div class="bg-tint"></div>
+</div>
+<div id="cd"></div>
+<div id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">WHERE'S <em>JAI</em></a>
+  <ul class="nav-links">
+    <li><a href="#gigs">Gigs</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#merch">Merch</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- top spikes in silver -->
+
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Auckland, New Zealand · Pop Rock</div>
+    <h1 class="hero-title">WHERE'S<br><em>JAI</em></h1>
+    <p class="hero-sub">Live loud · Dress louder</p>
+    <div class="social-row">
+      <!-- Instagram -->
+      <a href="https://instagram.com" class="soc">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+      </a>
+      <!-- Spotify -->
+      <a href="https://spotify.com" class="soc">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M7 9.5c3-1 7-1 10 0"/>
+          <path d="M7.5 12.5c2.5-1 6.5-1 9 0"/>
+          <path d="M8.5 15.5c2-0.7 5-0.7 7 0"/>
+        </svg>
+        Spotify
+      </a>
+      <!-- Apple Music -->
+      <a href="https://music.apple.com" class="soc">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+        Apple Music
+      </a>
+      <!-- YouTube -->
+      <a href="https://youtube.com" class="soc">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+        </svg>
+        YouTube
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</div>
+
+<!-- bottom spike of hero (points down into black) -->
+
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="t-item">New Album Out Now <span class="t-sep">◆</span></span>
+    <span class="t-item">Gig Dates Below <span class="t-sep">◆</span></span>
+    <span class="t-item">Limited Vinyl Available <span class="t-sep">◆</span></span>
+    <span class="t-item">Auckland · Wellington · Christchurch <span class="t-sep">◆</span></span>
+    <span class="t-item">New Album Out Now <span class="t-sep">◆</span></span>
+    <span class="t-item">Gig Dates Below <span class="t-sep">◆</span></span>
+    <span class="t-item">Limited Vinyl Available <span class="t-sep">◆</span></span>
+    <span class="t-item">Auckland · Wellington · Christchurch <span class="t-sep">◆</span></span>
+  </div>
+</div>
+
+<!-- GIGS -->
+<section id="gigs">
+  <p class="sl fi">Live Shows</p>
+  <h2 class="st fi d1">Upcoming <em>Gigs</em></h2>
+  <div class="gig fi d1"><div><div class="gn">18</div><div class="gm">Apr 2025</div></div><div><div class="gname">Whammy Bar</div><div class="gwhere">Auckland CBD — with Hairpin Turn</div></div><a href="#" class="gtix">Tickets</a></div>
+  <div class="gig fi d2"><div><div class="gn">02</div><div class="gm">May 2025</div></div><div><div class="gname">San Fran</div><div class="gwhere">Wellington — EP Release Show</div></div><a href="#" class="gtix">Tickets</a></div>
+  <div class="gig fi d3"><div><div class="gn">09</div><div class="gm">May 2025</div></div><div><div class="gname">Darkroom</div><div class="gwhere">Christchurch — with Indira Force</div></div><a href="#" class="gtix">Tickets</a></div>
+  <div class="gig fi d4"><div><div class="gn">24</div><div class="gm">May 2025</div></div><div><div class="gname sold-out">Kings Arms — Sold Out</div><div class="gwhere">Auckland — Headline</div></div><span class="gtix sold-out">Sold Out</span></div>
+  <div class="gig fi d1"><div><div class="gn">14</div><div class="gm">Jun 2025</div></div><div><div class="gname">Neck of the Woods</div><div class="gwhere">Auckland — Summer Psych Vol. 4</div></div><a href="#" class="gtix">Tickets</a></div>
+</section>
+
+<!-- PHOTO STRIP -->
+
+
+
+<!-- VIDEOS -->
+<section id="videos">
+  <p class="sl fi">Watch</p>
+  <h2 class="st fi d1">Music <em>Videos</em></h2>
+  <div class="vgrid">
+    <div class="vc fi d1">
+      <a href="https://www.youtube.com/watch?v=3MTRIPPE-Vw" target="_blank">
+      <div class="th">
+        <img src="img/FOA.jpeg" alt="Fresh Out Of Air">
+        <div class="pc"><svg width="54" height="54" viewBox="0 0 54 54" fill="none"><circle cx="27" cy="27" r="26" stroke="rgba(200,200,200,0.6)" stroke-width="1"/><path d="M22 19l13 8-13 8V19z" fill="rgba(226,226,226,0.9)"/></svg></div>
+      </div>
+      <div class="vm"><div class="vt">Fresh Out Of Air</div><div class="vs">2025 · Official Video</div></div>
+    </a>
+    </div>
+    <div class="vc fi d2">
+      <a href="https://www.youtube.com/watch?v=gxpcsyV7iFM" target="_blank">
+      <div class="th">
+        <img src="img/solo.jpg" alt="Greenhouse">
+        <div class="pc"><svg width="54" height="54" viewBox="0 0 54 54" fill="none"><circle cx="27" cy="27" r="26" stroke="rgba(200,200,200,0.6)" stroke-width="1"/><path d="M22 19l13 8-13 8V19z" fill="rgba(226,226,226,0.9)"/></svg></div>
+      </div>
+      <div class="vm"><div class="vt">Greenhouse</div><div class="vs">2025 · Official Video</div></div>
+      </a>
+    </div>
+    <div class="vc fi d3">
+      <a href="https://www.youtube.com/watch?v=cRDDEKMZGbo" target="_blank">
+      <div class="th">
+        <img src="img/CITRUS.JPG" alt="Citrus Mistress">
+        <div class="pc"><svg width="54" height="54" viewBox="0 0 54 54" fill="none"><circle cx="27" cy="27" r="26" stroke="rgba(200,200,200,0.6)" stroke-width="1"/><path d="M22 19l13 8-13 8V19z" fill="rgba(226,226,226,0.9)"/></svg></div>
+      </div>
+      <div class="vm"><div class="vt">Citrus Mistress</div><div class="vs">2025 · Official Video</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MERCH -->
+<section id="merch" style="background:#0a0a0a;">
+  <p class="sl fi">Shop</p>
+  <h2 class="st fi d1"><em>Merch</em></h2>
+  <div class="mgrid">
+    <div class="mc fi d1">
+      <div class="mbadge">Limited</div>
+      <div class="mi"><img src="img/solo.jpg" alt="12 inch vinyl"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Fresh Out of Air — 12" Vinyl</div><div class="mprice">$65 NZD</div></div>
+    </div>
+    <div class="mc fi d2">
+      <div class="mi"><img src="img/band-festival.jpg" alt="Tour tee"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Where's Jai Tee — Black</div><div class="mprice">$45 NZD</div></div>
+    </div>
+    <div class="mc fi d3">
+      <div class="mi"><img src="img/band-studio.jpg" alt="A2 poster"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Neon Exit — A2 Gig Poster</div><div class="mprice">$22 NZD</div></div>
+    </div>
+    <div class="mc fi d4">
+      <div class="mi"><img src="img/band-festival.jpg" alt="Sticker pack"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Sticker Pack — 5pcs</div><div class="mprice">$8 NZD</div></div>
+    </div>
+  </div>
+  <div class="mcta fi"><a href="merch.html" class="ctabtn">View Full Store</a></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="abg"></div>
+  <div class="ain">
+    <div class="fi">
+      <p class="sl">The Band</p>
+      <h2 class="st">Pop rock<br>from the<br><em>bottom of<br>the world</em></h2>
+      <p class="atxt">Whereʼs Jai, a fast-emerging, high-energy, pop rock band from Tāmaki Makaurau. Known for chaotic fun and emotionally charged shows. </p>
+      <p class="atxt">Fronted by two dynamic powerhouse female singers Grace Allis and Leigh Edmeades, backed by Michael Walmsley (guitar), Jai Nielsen (bass), and Gene Todd (drums). Formed in 2021 and now all just 19, they have quickly made a name for themselves.</p>
+    </div>
+    <div class="astats fi d2">
+      <div><div class="asn">60k+</div><div class="asl">Followers Across Platforms</div></div>
+      <div><div class="asn">3M+</div><div class="asl">Streams Across Platforms</div></div>
+      <div><div class="asn">5</div><div class="asl">Band Members</div></div>
+      <div><div class="asn">22</div><div class="asl">Songs Released</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAILING -->
+<div class="mail">
+  <div class="mail-in fi">
+    <h2>Stay in<br><em>the loop</em></h2>
+    <div class="mrow">
+      <input type="email" placeholder="your@email.com">
+      <button>Subscribe</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">WHERE'S <em>JAI</em></div>
+  <div class="flinks">
+    <a href="#">Instagram</a><a href="#">Spotify</a><a href="#">Apple Music</a>
+    <a href="#">YouTube</a><a href="#">Bandcamp</a><a href="#">Contact</a>
+  </div>
+  <div class="fcopy">© 2025 Where's Jai — Auckland, NZ</div>
+</footer>
+
+<script>
+const cd=document.getElementById('cd'), cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){
+  cd.style.cssText=`left:${mx}px;top:${my}px`;
+  rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
+  cr.style.cssText=`left:${rx}px;top:${ry}px`;
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.mc,.vc,.gig').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>80);
+});
+const obs=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('on')),{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+document.querySelectorAll('.abtn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const o=b.textContent; b.textContent='✓ Added'; b.style.background='#3a0a15';
+    setTimeout(()=>{b.textContent=o;b.style.background='';},1800);
+  });
+});
+// Background swap on scroll
+//const bgHero = document.getElementById('bg-hero');
+const bgGigs = document.getElementById('bg-gigs');
+const bgRest = document.getElementById('bg-rest');
+const gigsSection = document.getElementById('gigs');
+const videosSection = document.getElementById('videos');
+
+function updateBg() {
+  const scrollY = window.scrollY;
+  const gigsTop = gigsSection.offsetTop - 200;
+  const videosTop = videosSection.offsetTop - 150;
+
+ // if (scrollY < gigsTop) {
+   // bgHero.classList.add('active');
+  //  bgGigs.classList.remove('active');
+  //  bgRest.classList.remove('active');
+ //} else 
+  if (scrollY < videosTop) {
+    //bgHero.classList.remove('active');
+    bgGigs.classList.add('active');
+    bgRest.classList.remove('active');
+  } else {
+   // bgHero.classList.remove('active');
+    bgGigs.classList.remove('active');
+    bgRest.classList.add('active');
+  }
+}
+
+window.addEventListener('scroll', updateBg);
+
+</script>
+</body>
+</html>
