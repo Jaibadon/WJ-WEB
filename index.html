@@ -26,7 +26,16 @@
   --text: #e2e2e2;
   --muted: #878787;
 }
-html { cursor: none; scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
+
+@media (pointer: fine) {
+  html { cursor: none; }
+  #cd, #cr { display: block; }
+}
+
+@media (pointer: coarse) {
+  #cd, #cr { display: none; }
+}
 body { background: var(--black); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; overflow-x: hidden; }
 
 /* CURSOR */
