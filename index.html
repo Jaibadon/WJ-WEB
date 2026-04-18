@@ -18,8 +18,8 @@
 :root {
   --black: #080808;
   --deep: #111111;
-  --burg: #7a1a2e;
-  --burg-light: #9e2340;
+  --burg: #b20101;
+  --burg-light: #b20101;
   --silver: #c8c8c8;
   --silver-bright: #e8e8e8;
   --silver-dim: #9c9c9c;
@@ -29,7 +29,7 @@
 html { scroll-behavior: smooth; }
 
 @media (pointer: fine) {
-  html { cursor: none; }
+  html, body, * { cursor: none !important; }
   #cd, #cr { display: block; }
 }
 
@@ -276,8 +276,8 @@ footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06);
   <a href="#" class="nav-logo">WHERE'S <em>JAI</em></a>
   <ul class="nav-links">
     <li><a href="#gigs">Gigs</a></li>
+    <li><a href="https://merch.wheresjai.com">Merch</a></li>
     <li><a href="#videos">Videos</a></li>
-    <li><a href="#merch">Merch</a></li>
     <li><a href="#about">About</a></li>
   </ul>
 </nav>
@@ -290,9 +290,7 @@ footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06);
 
 
   <div class="hero-content">
-    <div class="hero-eyebrow">Auckland, New Zealand · Pop Rock</div>
-    <h1 class="hero-title">WHERE'S<br><em>JAI</em></h1>
-    <p class="hero-sub">Live loud · Play louder</p>
+    <h1 class="hero-title">WHERE'S<em>JAI</em></h1>
     <div class="social-row">
       <!-- Instagram -->
       <a href="https://instagram.com/wheres.jai" class="soc">
@@ -364,9 +362,10 @@ footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06);
 <!-- GIGS -->
 <section id="gigs">
   <p class="sl fi">Live Shows</p>
-  <h2 class="st fi d1">Upcoming <em>Gigs</em></h2>
+  <!--<h2 class="st fi d1">Upcoming <em>Gigs</em></h2>
   <div class="gig fi d1"><div><div class="gn">10</div><div class="gm">Apr 2026</div></div><div><div class="gname">Powerstation</div><div class="gwhere">Auckland CBD — The Mountain Goats</div></div><a href="#" class="gtix">Tickets</a></div>
-  <div class="gig fi d2"><div><div class="gn">11</div><div class="gm">Apr 2026</div></div><div><div class="gname">Meow Nui</div><div class="gwhere">Wellington — The Mountain Goats</div></div><a href="#" class="gtix">Tickets</a></div>
+  <div class="gig fi d2"><div><div class="gn">11</div><div class="gm">Apr 2026</div></div><div><div class="gname">Meow Nui</div><div class="gwhere">Wellington — The Mountain Goats</div></div><a href="#" class="gtix">Tickets</a></div>-->
+  <div class="gig fi d2"><div><div class="gn">11</div><div class="gm">Apr 2026</div></div><div><div class="gname">Morningside Mixtape</div><div class="gwhere">Auckland</div></div><a href="https://www.eventfinda.co.nz/2026/morningside-mixtape/auckland" class="gtix">Tickets</a></div>
   <!--<div class="gig fi d3"><div><div class="gn">09</div><div class="gm">May 2026</div></div><div><div class="gname">Darkroom</div><div class="gwhere">Christchurch — with Indira Force</div></div><a href="#" class="gtix">Tickets</a></div>
   <div class="gig fi d4"> <div><div class="gn">24</div><div class="gm">May 2026</div></div><div><div class="gname sold-out">Kings Arms — Sold Out</div><div class="gwhere">Auckland — Headline</div></div><span class="gtix sold-out">Sold Out</span></div>
   <div class="gig fi d1"><div><div class="gn">14</div><div class="gm">Jun 2026</div></div><div><div class="gname">Neck of the Woods</div><div class="gwhere">Auckland — Summer Psych Vol. 4</div></ div><a href="#" class="gtix">Tickets</a></ div>!-->
@@ -374,7 +373,35 @@ footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06);
 
 <!-- PHOTO STRIP -->
 
-
+<!-- MERCH -->
+<section id="merch" style="background:#0a0a0a;">
+  <p class="sl fi">Shop</p>
+  <h2 class="st fi d1"><em>Merch</em></h2>
+  <div class="mgrid">
+    <div class="mc fi d1">
+      <a href="https://holidayrecords.com/collections/drops/products/wheres-jai-fresh-out-of-air-pre-order" target="_blank">
+      <div class="mbadge">Limited</div>
+      <div class="mi"><img src="https://holidayrecords.com/cdn/shop/files/WHERESJAIMOCK_FRONT2_68fae7b7-c484-4670-a680-c417646768ba_940x.png" alt="12 inch vinyl"><!--<div class="mo"><button class="abtn">+ Add to Cart</button></div>--></div>
+      <div class="minfo"><div class="mname">Fresh Out of Air — 12" Vinyl</div><div class="mprice">$65 NZD</div></div>
+      </a>
+    </div>
+    <div class="mc fi d2">
+      <a href="https://wheresjai.bigcartel.com/product/wheres-jai-t-shirts" target="_blank">
+      <div class="mi"><img src="https://assets.bigcartel.com/product_images/421667748/IMG_3055-preview.jpeg?auto=format&fit=max&w=2000" alt="Tour tee"><!--<div class="mo"><button class="abtn">+ Add to Cart</button></div>--></div>
+      <div class="minfo"><div class="mname">Where's Jai Tee — White</div><div class="mprice">$50 NZD</div></div>
+      </a>
+    </div>
+    <!--<div class="mc fi d3">
+      <div class="mi"><img src="img/band-studio.jpg" alt="A2 poster"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Fresh Out of Air — A2 Gig Poster</div><div class="mprice">$22 NZD</div></div>
+    </div>
+    <div class="mc fi d4">
+      <div class="mi"><img src="img/band-festival.jpg" alt="Sticker pack"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
+      <div class="minfo"><div class="mname">Sticker Pack — 5pcs</div><div class="mprice">$8 NZD</div></div>
+    </div>-->
+  </div>
+  <div class="mcta fi"><a href="https://wheresjai.bigcartel.com" target="_blank" rel="noopener noreferrer" class="ctabtn">View Full Store</a></div>
+</section>
 
 <!-- VIDEOS -->
 <section id="videos">
@@ -411,35 +438,7 @@ footer { background: var(--black); border-top: 1px solid rgba(200,200,200,0.06);
   </div>
 </section>
 
-<!-- MERCH -->
-<section id="merch" style="background:#0a0a0a;">
-  <p class="sl fi">Shop</p>
-  <h2 class="st fi d1"><em>Merch</em></h2>
-  <div class="mgrid">
-    <div class="mc fi d1">
-      <a href="https://holidayrecords.com/collections/drops/products/wheres-jai-fresh-out-of-air-pre-order" target="_blank">
-      <div class="mbadge">Limited</div>
-      <div class="mi"><img src="https://holidayrecords.com/cdn/shop/files/WHERESJAIMOCK_FRONT2_68fae7b7-c484-4670-a680-c417646768ba_940x.png" alt="12 inch vinyl"><!--<div class="mo"><button class="abtn">+ Add to Cart</button></div>--></div>
-      <div class="minfo"><div class="mname">Fresh Out of Air — 12" Vinyl</div><div class="mprice">$65 NZD</div></div>
-      </a>
-    </div>
-    <div class="mc fi d2">
-      <a href="https://wheresjai.bigcartel.com/product/wheres-jai-t-shirts" target="_blank">
-      <div class="mi"><img src="https://assets.bigcartel.com/product_images/421667748/IMG_3055-preview.jpeg?auto=format&fit=max&w=2000" alt="Tour tee"><!--<div class="mo"><button class="abtn">+ Add to Cart</button></div>--></div>
-      <div class="minfo"><div class="mname">Where's Jai Tee — White</div><div class="mprice">$50 NZD</div></div>
-      </a>
-    </div>
-    <!--<div class="mc fi d3">
-      <div class="mi"><img src="img/band-studio.jpg" alt="A2 poster"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
-      <div class="minfo"><div class="mname">Fresh Out of Air — A2 Gig Poster</div><div class="mprice">$22 NZD</div></div>
-    </div>
-    <div class="mc fi d4">
-      <div class="mi"><img src="img/band-festival.jpg" alt="Sticker pack"><div class="mo"><button class="abtn">+ Add to Cart</button></div></div>
-      <div class="minfo"><div class="mname">Sticker Pack — 5pcs</div><div class="mprice">$8 NZD</div></div>
-    </div>-->
-  </div>
-  <div class="mcta fi"><a href="https://wheresjai.bigcartel.com" target="_blank" rel="noopener noreferrer" class="ctabtn">View Full Store</a></div>
-</section>
+
 
 <!-- ABOUT -->
 <section id="about">
